@@ -1,0 +1,1 @@
+src/Chess.cmj : src/ochess.cmj
