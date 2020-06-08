@@ -1,1 +1,1 @@
-src/Main.cmj : src/Board.cmj src/Chess.cmj
+src/Main.cmj : src/Board.cmj src/Chess.cmj src/Game.cmj src/Keyboard.cmj

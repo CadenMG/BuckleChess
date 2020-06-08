@@ -1,0 +1,33 @@
+ul.moves {
+    margin: .25em;
+    padding: .25em;
+    list-style-type: none;
+}
+
+li.move {
+    display: inline;
+}
+li.move:after {
+    content: " ";
+}
+
+span.number {
+    color: #808080;
+    display: none;
+}
+li.move.white > span.number:after {
+    content: ".\00a0";
+}
+li.move.black > span.number:after {
+    content: "...\00a0";
+}
+li.move.white > span.number {
+    display: inline;
+}
+
+li.move.highlight > span.move {
+  background: #ff0;
+}
+span.move {
+  cursor: pointer;
+}

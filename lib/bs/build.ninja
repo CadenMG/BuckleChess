@@ -13,15 +13,19 @@ bsc_lib_includes = -I src
 rule build_ast_and_module_sets
   command = ${bsc}  ${pp_flags} ${ppx_flags} ${warnings} ${bsc_flags} -c -o ${out} -bs-syntax-only -bs-binary-ast ${in}
   description = [34mBuilding[39m [2m${out}[22m
-build src/Main.mlast : build_ast_and_module_sets $src_root_dir/src/Main.ml
+build src/Game.mlast : build_ast_and_module_sets $src_root_dir/src/Game.ml
 rule build_deps
   command = ${bsdep} ${namespace} -g ${bsb_dir_group} -MD ${in}
   description = [34mBuilding[39m [2m${out}[22m
-build src/Main.mlast.d : build_deps src/Main.mlast
+build src/Game.mlast.d : build_deps src/Game.mlast
 rule build_cmj_cmi
   command = ${bsc} ${bs_package_flags} -bs-assume-no-mli -bs-no-builtin-ppx-ml -bs-no-implicit-include ${bs_package_includes} ${bsc_lib_includes} ${bsc_extra_includes} ${warnings} ${bsc_flags} -o ${out} -c  ${in} $postbuild
   depfile = ${in}.d
   description = [34mBuilding[39m [2m${out}[22m
+build src/Game.cmj |  $src_root_dir/src/Game.bs.js src/Game.cmi : build_cmj_cmi src/Game.mlast
+  bs_package_flags = $bs_package_flags  -bs-package-output es6:src
+build src/Main.mlast : build_ast_and_module_sets $src_root_dir/src/Main.ml
+build src/Main.mlast.d : build_deps src/Main.mlast
 build src/Main.cmj |  $src_root_dir/src/Main.bs.js src/Main.cmi : build_cmj_cmi src/Main.mlast
   bs_package_flags = $bs_package_flags  -bs-package-output es6:src
 build src/Board.mlast : build_ast_and_module_sets $src_root_dir/src/Board.ml
@@ -36,4 +40,12 @@ build src/ochess.mlast : build_ast_and_module_sets $src_root_dir/src/ochess.ml
 build src/ochess.mlast.d : build_deps src/ochess.mlast
 build src/ochess.cmj |  $src_root_dir/src/ochess.bs.js src/ochess.cmi : build_cmj_cmi src/ochess.mlast
   bs_package_flags = $bs_package_flags  -bs-package-output es6:src
-build build.ninja : phony  ||  src/ochess.mlast.d src/Chess.mlast.d src/Board.mlast.d src/Main.mlast.d
+build src/Zipper.mlast : build_ast_and_module_sets $src_root_dir/src/Zipper.ml
+build src/Zipper.mlast.d : build_deps src/Zipper.mlast
+build src/Zipper.cmj |  $src_root_dir/src/Zipper.bs.js src/Zipper.cmi : build_cmj_cmi src/Zipper.mlast
+  bs_package_flags = $bs_package_flags  -bs-package-output es6:src
+build src/Keyboard.mlast : build_ast_and_module_sets $src_root_dir/src/Keyboard.ml
+build src/Keyboard.mlast.d : build_deps src/Keyboard.mlast
+build src/Keyboard.cmj |  $src_root_dir/src/Keyboard.bs.js src/Keyboard.cmi : build_cmj_cmi src/Keyboard.mlast
+  bs_package_flags = $bs_package_flags  -bs-package-output es6:src
+build build.ninja : phony  ||  src/Keyboard.mlast.d src/Zipper.mlast.d src/ochess.mlast.d src/Chess.mlast.d src/Board.mlast.d src/Main.mlast.d src/Game.mlast.d
