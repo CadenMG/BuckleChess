@@ -1,1 +1,0 @@
-src/Game.cmj : src/Chess.cmj src/Zipper.cmj
